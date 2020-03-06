@@ -1,3 +1,8 @@
+html {
+  --lh: 1.4rem;
+  line-height: var(--lh);
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -5,4 +10,28 @@ body {
 
 a {
   color: #00B7FF;
+}
+
+.card {
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.nav {
+  margin-bottom: 10px;
+}
+
+.title-current {
+  font-size: 15pt;
+}
+
+.truncate-overflow {
+  --max-lines: 6;
+  min-height: calc(var(--lh) * var(--max-lines));
+  max-height: calc(var(--lh) * var(--max-lines));
+  overflow: scroll;
 }

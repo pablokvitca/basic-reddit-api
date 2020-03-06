@@ -1,0 +1,35 @@
+{% extends 'layout.nunjucks' %}
+
+{% block title %}
+    Reddit API - {{subreddit}}
+{% endblock %}
+
+{% block content %}
+<div class="container bg-light">
+    <h1 class="title-current">{{ count }} {{ sortType }} posts</h1>
+    <nav class="nav nav-pills nav-fill">
+        <a class="nav-item nav-link {% if sortType == 'top' %} active {% endif %}" href="/posts/top/{{subreddit}}/{{count}}">TOP</a>
+        <a class="nav-item nav-link {% if sortType == 'hot' %} active {% endif %}" href="/posts/hot/{{subreddit}}/{{count}}">HOT</a>
+        <a class="nav-item nav-link {% if sortType == 'new' %} active {% endif %}" href="/posts/new/{{subreddit}}/{{count}}">NEW</a>
+        <a class="nav-item nav-link {% if sortType == 'rising' %} active {% endif %}" href="/posts/rising/{{subreddit}}/{{count}}">RISING</a>
+    </nav>
+    <div class="row">
+        {% for post in posts %}
+            <div class="col-3">
+                <div class="card">
+                    <img alt="thumbnail" src={{ post.thumbnail }} class="card-img-top" onerror='this.style.display = "none"'>
+                    <div class="card-body">
+                        <h5 class="card-title truncate-overflow">{{ post.title }}</h5>
+                        {% if post.text %}
+                            <p class="card-text truncate-overflow">{{ post.text }}</p>
+                        {% else %}
+                            <p style="font-size:8pt;"><i>NO POST TEXT</i></p>
+                        {% endif %}
+                        <a href={{ post.url }} target="_blank" class="btn btn-primary">VIEW POST</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

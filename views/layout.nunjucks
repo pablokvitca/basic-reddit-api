@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>{{ title }}</title>
+  <script language="javascript" src="/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  {% block content %}{% endblock %}
+</body>
+</html>
