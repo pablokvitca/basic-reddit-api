@@ -10,7 +10,12 @@ router.get('/', function (req, res, next) {
 router.get('/posts/:sort/:subreddit/:count?', (req, res, next) => {
   sortType = req.params.sort
   subreddit = req.params.subreddit
-  count = req.params.count
+  count = req.params.count || 5
+  maxOverflowed = 0
+  if (count > 100) {
+    maxOverflowed = count;
+    count = 100;
+  }
   if (["top", "hot", "rising", "new"].includes(sortType)) {
     url = `http://localhost:3000/api/${sortType}/${subreddit}/${count}`
     request(url, { json: true },
@@ -20,7 +25,8 @@ router.get('/posts/:sort/:subreddit/:count?', (req, res, next) => {
             sortType: sortType,
             subreddit: subreddit,
             count: count,
-            posts: body
+            posts: body,
+            maxOverflowed: maxOverflowed
           });
         }
       });

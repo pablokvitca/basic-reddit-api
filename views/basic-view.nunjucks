@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="container bg-light">
-    <h1 class="title-current">{{ count }} {{ sortType }} posts</h1>
+    <h1 class="title-current">{{ count }} {{ sortType }} posts {% if maxOverflowed %} (could not load {{ maxOverflowed }}, max is 100) {% endif %}</h1>
     <nav class="nav nav-pills nav-fill">
         <a class="nav-item nav-link {% if sortType == 'top' %} active {% endif %}" href="/posts/top/{{subreddit}}/{{count}}">TOP</a>
         <a class="nav-item nav-link {% if sortType == 'hot' %} active {% endif %}" href="/posts/hot/{{subreddit}}/{{count}}">HOT</a>

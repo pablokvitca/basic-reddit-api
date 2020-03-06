@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
-<body>
+<body class="bg-light">
   {% block content %}{% endblock %}
 </body>
 </html>
