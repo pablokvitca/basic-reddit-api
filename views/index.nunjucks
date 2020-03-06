@@ -1,6 +1,22 @@
 {% extends 'layout.nunjucks' %}
 
+{% block title %}
+Reddit Top Posts API
+{% endblock %}
+
 {% block content %}
-  <h1>{{ title }}</h1>
-  <p>Welcome to {{ title }}</p>
+  <h1>Reddit Top Posts API</h1>
+  <h3>Simply use the route "post/top/[your desired subreddit]/[top posts count (optional)].</h3>
+  <h4>See README for details.</h4>
+  <p><i>Coded by Pablo Kvitca (Last update: March 6th 2020)</i></p>
+  <br>
+  <br>
+  <h5>Some places to try:</h5>
+  <ul>
+    <li><a href="posts/top/politics/15">posts/top/politics/15</a></li>
+    <li><a href="posts/hot/politics/90">posts/hot/politics/90</a></li>
+    <li><a href="posts/new/worldnews/100">posts/new/worldnews/100</a></li>
+    <li><a href="posts/rising/programmer/10">posts/top/programmer/10</a></li>
+    <li><a href="posts/new/programmer/25">posts/top/programmer/25</a></li>
+  </ul>
 {% endblock %}
