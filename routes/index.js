@@ -17,22 +17,26 @@ router.get('/posts/:sort/:subreddit/:count?', (req, res, next) => {
     count = 100;
   }
   if (["top", "hot", "rising", "new"].includes(sortType)) {
-    posts = api.requestAndCleanPosts(sortType, subreddit, count).then((posts) => {
-      res.render("basic-view", {
-        sortType: sortType,
-        subreddit: subreddit,
-        count: count,
-        posts: posts,
-        maxOverflowed: maxOverflowed
-      });
-    });
+    posts = api.requestAndCleanPosts(sortType, subreddit, count)
+      .then((posts) => {
+        res.render("basic-view", {
+          sortType: sortType,
+          subreddit: subreddit,
+          count: count,
+          posts: posts,
+          maxOverflowed: maxOverflowed
+        });
+      })
+      .catch((err) => {
+        res.status(err.statusCode).render("error", {
+          message: "Could not found that subreddit! Please check your spelling",
+          error: { status: err.statusCode, stack: "" }
+        });
+      })
   } else {
     res.render("error", {
-      message: "404 Not Found",
-      error: {
-        status: 404,
-        stack: ""
-      }
+      message: "Valid sorts are 'top', 'hot', 'rising', or 'new'.",
+      error: { status: 404, stack: "" }
     });
   }
 });

@@ -9,48 +9,74 @@ function requestAndCleanPosts(sortType, subreddit, count) {
         url = `https://reddit.com/r/${subreddit}/${sortType}.json?limit=${count}`
         request(url, { json: true },
             (err, reddit_res, body) => {
-                if (err || reddit_res.statusCode != 200) {
-                    res.status(500).send("Something happened. Please refer to the README.md for documentation details.");
-                    reject(err);
+                if (reddit_res.statusCode == 200 && !err) {
+                    posts = body.data.children;
+                    posts = posts.map(post => {
+                        return {
+                            title: post.data.title,
+                            text: post.data.selftext,
+                            thumbnail: post.data.thumbnail,
+                            permalink: post.data.permalink,
+                            url: post.data.url,
+                            date: post.data.created_utc
+                        }
+                    });
+                    resolve(posts);
+                } else {
+                    reject({
+                        statusCode: reddit_res.statusCode,
+                        error: err
+                    });
                 }
-                posts = body.data.children;
-                posts = posts.map(post => {
-                    return {
-                        title: post.data.title,
-                        text: post.data.selftext,
-                        thumbnail: post.data.thumbnail,
-                        permalink: post.data.permalink,
-                        url: post.data.url,
-                        date: post.data.created_utc
-                    }
-                });
-                resolve(posts);
             });
     });
 }
 
-router.get('/top/:subreddit/:count?', (req, res, next) => {
-    requestAndCleanPosts("top", req.params.subreddit, req.params.count || 5).then((posts) => {
-        res.send(posts);
+function subredditNotFoundError(err, res) {
+    res.status(err.statusCode).render("error", {
+        message: "Could not found that subreddit! Please check your spelling",
+        error: { status: err.statusCode, stack: "" }
     });
+}
+
+router.get('/top/:subreddit/:count?', (req, res, next) => {
+    requestAndCleanPosts("top", req.params.subreddit, req.params.count || 5)
+        .then((posts) => {
+            res.send(posts);
+        })
+        .catch((err) => {
+            subredditNotFoundError(err, res);
+        });
 });
 
 router.get('/hot/:subreddit/:count?', (req, res, next) => {
-    requestAndCleanPosts("hot", req.params.subreddit, req.params.count || 5).then((posts) => {
-        res.send(posts);
-    });
+    requestAndCleanPosts("hot", req.params.subreddit, req.params.count || 5)
+        .then((posts) => {
+            res.send(posts);
+        })
+        .catch((err) => {
+            subredditNotFoundError(err, res);
+        });
 });
 
 router.get('/rising/:subreddit/:count?', (req, res, next) => {
-    requestAndCleanPosts("rising", req.params.subreddit, req.params.count || 5).then((posts) => {
-        res.send(posts);
-    });
+    requestAndCleanPosts("rising", req.params.subreddit, req.params.count || 5)
+        .then((posts) => {
+            res.send(posts);
+        })
+        .catch((err) => {
+            subredditNotFoundError(err, res);
+        });
 });
 
 router.get('/new/:subreddit/:count?', (req, res, next) => {
-    requestAndCleanPosts("new", req.params.subreddit, req.params.count || 5).then((posts) => {
-        res.send(posts);
-    });
+    requestAndCleanPosts("new", req.params.subreddit, req.params.count || 5)
+        .then((posts) => {
+            res.send(posts);
+        })
+        .catch((err) => {
+            subredditNotFoundError(err, res);
+        });
 });
 
 module.exports = {
