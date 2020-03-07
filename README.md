@@ -5,6 +5,13 @@ either the *top*, *hot*, *new*, or *rising* posts.
 
 There is basic UI built with Bootstrap and Nunjucks and a basic API built on Node.js and Express.
 
+See it running on Heroku! 
+- Root: [https://basic-reddit-api.herokuapp.com/](https://basic-reddit-api.herokuapp.com/)
+- API Example 1: [https://basic-reddit-api.herokuapp.com/api/top/politics/15](https://basic-reddit-api.herokuapp.com/api/top/politics/15)
+- API Example 2: [https://basic-reddit-api.herokuapp.com/api/rising/programmer/62](https://basic-reddit-api.herokuapp.com/api/rising/programmer/62)
+- UI Example 1: [https://basic-reddit-api.herokuapp.com/posts/hot/programmer/25](https://basic-reddit-api.herokuapp.com/posts/hot/programmer/25)
+- UI Example 2: [https://basic-reddit-api.herokuapp.com/posts/top/politics/100](https://basic-reddit-api.herokuapp.com/posts/top/politics/100)
+
 ## Tools used
 - Node.js
 - Express
@@ -55,3 +62,8 @@ Finds the top (count, by default 5) posts on the given subreddit, using the "new
 - Visit *http://localhost:3000* for the homepage. 
 - Visit *http://localhost:3000/posts/top/\[subreddit\]/10* to get the *top* *10* posts for the *subreddit*
 
+## Program Overview
+- The server is implemented on node.js+express. These combination uses the routes (defined on *routes/api.js* and *routes/index.js*).
+- The API route simply accesses the Reddit API for the given subreddit, and cleans all the data tha is not needed.
+- For the UI, it was implemented quickly using Bootstrap and Nunjucks for the templating. It gets the posts form the API **internally** by using an exported *Promise* function, and then delegates the rendering to Nunjucks.
+- Finally, Nunjucks (and some clever CSS from Bootstrap) can render the posts on the UI.
