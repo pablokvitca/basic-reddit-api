@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const request = require('request');
+const api = require('./api');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -17,19 +17,15 @@ router.get('/posts/:sort/:subreddit/:count?', (req, res, next) => {
     count = 100;
   }
   if (["top", "hot", "rising", "new"].includes(sortType)) {
-    url = `http://localhost:3000/api/${sortType}/${subreddit}/${count}`
-    request(url, { json: true },
-      (err, reddit_res, body) => {
-        if (!err) {
-          res.render("basic-view", {
-            sortType: sortType,
-            subreddit: subreddit,
-            count: count,
-            posts: body,
-            maxOverflowed: maxOverflowed
-          });
-        }
+    posts = api.requestAndCleanPosts(sortType, subreddit, count).then((posts) => {
+      res.render("basic-view", {
+        sortType: sortType,
+        subreddit: subreddit,
+        count: count,
+        posts: posts,
+        maxOverflowed: maxOverflowed
       });
+    });
   } else {
     res.render("error", {
       message: "404 Not Found",
